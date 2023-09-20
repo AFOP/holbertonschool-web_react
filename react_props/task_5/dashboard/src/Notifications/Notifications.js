@@ -1,5 +1,6 @@
 import React from 'react';
 import './Notifications.css';
+import NotificationItem from './NotificationItem'
 import close_icon from '../assets/close-icon.png';
 import { getLatestNotification } from '../utils/utils';
 
@@ -8,11 +9,11 @@ function Notifications() {
     <div className="Notifications">
       <p>Here is the list of notifications</p>
       <ul style={{position: 'relative'}}>
-        <li data-priority='default'>New course available</li>
-        <li data-priority='urgent'>New resume available</li>
-        <li data-priority='urgent' dangerouslySetInnerHTML={{__html: getLatestNotification()}}></li>
+        <NotificationItem type='default' value="New course available" />
+        <NotificationItem type='urgent' value="New resume available" />
+        <NotificationItem type='urgent' html={{__html: getLatestNotification()}} />
       </ul>
-      <button onClick={buttonClick()} aria-label="Close" style={buttonStyle}>
+      <button onClick={() => buttonClick()} aria-label="Close" style={buttonStyle}>
         <img alt="close icon" src={close_icon} style={imageStyle}/>
       </button>
     </div>
@@ -32,8 +33,8 @@ const buttonStyle = {
 }
 
 const imageStyle = {
-  width: '20px',
-  height: '20px',
+  width: '.7rem',
+  height: '.7rem',
 }
 
 export default Notifications;

@@ -2,12 +2,16 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
+  devtool: 'inline-source-map',
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve('./dist'),
   },
-  devtool: 'inline-source-map',
+  performance: {
+    maxAssetSize: 1000000,
+    maxEntrypointSize: 1000000,
+  },
   devServer: {
     hot: true,
     contentBase: path.resolve('./dist'),
