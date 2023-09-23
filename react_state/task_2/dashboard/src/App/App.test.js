@@ -77,4 +77,33 @@ describe('Test App.js', () => {
     wrapper.instance().handleHideDrawer();
     expect(wrapper.state().displayDrawer).toEqual(false);
   });
+
+  it('Refactor the test checking if logOut is being called by verifying if the state is updated correctly instead', (done) => {
+    const wrapper = mount(<AppContext.Provider value={value}><App/></AppContext.Provider>);
+    wrapper.instance().logOut;
+    expectChai(wrapper.state().user).to.equals(value.user);
+    done();
+  });
+
+  it('test to verify that the logIn function updates the state correctly', (done) => {
+    const wrapper = mount(<AppContext.Provider value={value}><App/></AppContext.Provider>);
+    wrapper.instance().logIn('test@test.com', 'test');
+    value.user.isLoggedIn = true;
+    value.user.email = 'test@test.com';
+    value.user.password = 'test';
+    expectChai(wrapper.state().user.email).to.equals(value.user.email);
+    expectChai(wrapper.state().user.password).to.equals(value.user.password);
+    expectChai(wrapper.state().user.isLoggedIn).to.equals(value.user.isLoggedIn);
+    done();
+  });
+
+  it('test to verify that the logOut function updates the state correctly', (done) => {
+    value.user.isLoggedIn = true;
+    value.user.email = 'test@test.com';
+    value.user.password = 'test';
+    const wrapper = mount(<AppContext.Provider value={value}><App/></AppContext.Provider>);
+    wrapper.instance().logOut();
+    expectChai(wrapper.state().user).to.equals(user);
+    done();
+  });
 });
