@@ -31,4 +31,18 @@ describe('Test Login.js', () => {
     expect(wrapper.find('label')).to.have.lengthOf(2);
     done();
   });
+
+  it('verify that the submit button is disabled by default', (done) => {
+    const wrapper = shallow(<Login />);
+    expect(wrapper.state().enableSubmit).to.equal(false);
+    done();
+  });
+
+  it('verify that after changing the value of the two inputs, the button is enabled', (done) => {
+    const wrapper = shallow(<Login />);
+    wrapper.find('input#email').simulate('change', { target: { value: 'test@test.com' } });
+    wrapper.find('input#password').simulate('change', { target: { value: 'test' } });
+    expect(wrapper.state().enableSubmit).to.equal(true);
+    done();
+  });
 });
