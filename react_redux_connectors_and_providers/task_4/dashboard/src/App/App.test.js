@@ -43,14 +43,14 @@ describe('Test App.js', () => {
   });
 
   it('test that verify that the function returns the right object isUserLoggedIn', (done) => {
-    let state = fromJS({ isUserLoggedIn: true });
+    let state = { ui: fromJS({ isUserLoggedIn: true }) } ;
     const result = mapStateToProps(state);
     expectChai(_.isEqual(result, { isLoggedIn: true, displayDrawer: undefined })).to.equal(true);
     done();
   });
 
   it('test that verify that the function returns the right object displayDrawer', (done) => {
-    let state = fromJS({ isNotificationDrawerVisible: true });
+    let state = { ui: fromJS({ isNotificationDrawerVisible: true }) };
     const result = mapStateToProps(state);
     expectChai(_.isEqual(result, { isLoggedIn: undefined, displayDrawer: true })).to.equal(true);
     done();
