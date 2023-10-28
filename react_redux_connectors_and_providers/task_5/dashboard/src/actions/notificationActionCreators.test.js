@@ -1,21 +1,61 @@
-import { MARK_AS_READ, SET_TYPE_FILTER } from './notificationActionTypes';
-import { markAsAread, setNotificationFilter } from './notificationActionCreators';
-import { expect as expectChai } from 'chai';
+import {
+  MARK_AS_READ,
+  SET_TYPE_FILTER,
+  SET_LOADING_STATE,
+  FETCH_NOTIFICATIONS_SUCCESS,
+  NotificationTypeFilters,
+} from "./notificationActionTypes";
 
-var _ = require('lodash');
+import {
+  markAsAread,
+  setNotificationFilter,
+  setLoadingState,
+  setNotifications,
+  fetchNotifications,
+} from "./notificationActionCreators";
 
-describe('Test notificationActionCreators.js', () => {
-  it('test for markAsAread' , (done) => {
-    const data = markAsAread(1);
-    const result = { type: MARK_AS_READ, index: 1 };    
-    expectChai(_.isEqual(data, result)).to.equal(true);
-    done();
+describe("action creators tests", function () {
+  it("returns correct action for markAsRead", function () {
+    const expectedReturn = {
+      type: MARK_AS_READ,
+      index: 1,
+    };
+
+    const result = markAsAread(1);
+
+    expect(result).toEqual(expectedReturn);
   });
 
-  it('test for setNotificationFilter', (done) => {
-    const data = setNotificationFilter('DEFAULT');
-    const result = { type: SET_TYPE_FILTER, filter: 'DEFAULT' };    
-    expectChai(_.isEqual(data, result)).to.equal(true);
-    done();
+  it("returns correct action for setNotificationFilter", function () {
+    const expectedReturn = {
+      type: SET_TYPE_FILTER,
+      filter: "DEFAULT",
+    };
+
+    const result = setNotificationFilter(NotificationTypeFilters.DEFAULT);
+
+    expect(result).toEqual(expectedReturn);
+  });
+  it("returns correct action for setLoadingState", function () {
+    const expectedReturn = {
+      type: SET_LOADING_STATE,
+      loading: true,
+    };
+
+    const result = setLoadingState(true);
+
+    expect(result).toEqual(expectedReturn);
+  });
+  it("returns correct action for setNotifications", function () {
+    const data = { 1: { a: "Hello" }, 2: { b: "There" } };
+
+    const expectedReturn = {
+      type: FETCH_NOTIFICATIONS_SUCCESS,
+      data,
+    };
+
+    const result = setNotifications(data);
+
+    expect(result).toEqual(expectedReturn);
   });
 });

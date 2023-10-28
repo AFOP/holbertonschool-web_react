@@ -1,58 +1,67 @@
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import React from "react";
+import { App, listNotificationsInitialState, mapStateToProps } from "./App";
 import { StyleSheetTestUtils } from "aphrodite";
+import AppContext, { user, logOut } from "./AppContext";
+
+import { fromJS } from "immutable";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-
-import { App, listNotificationsInitialState, mapStateToProps } from "./App";
 import uiReducer, { initialState } from "../reducers/uiReducer";
-import { expect as expectChai } from 'chai';
-import CourseList from '../CourseList/CourseList';
-import Login from '../Login/Login';
 
 const store = createStore(uiReducer, initialState);
-var _ = require('lodash');
-const { fromJS } = require('immutable');
 
-describe('Test App.js', () => {
-
+describe("<App />", () => {
   beforeAll(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
-
   afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  it('App without crashing', (done) => {
-    expectChai(shallow(<App />).exists());
-    done();
-  });
-
-  it('check that CourseList is not displayed when isLoggedIn is false', (done) => {
+  it("App renders without crashing", () => {
     const wrapper = shallow(<App />);
-    expectChai(wrapper.find(CourseList)).to.have.lengthOf(0);
-    done();
+    expect(wrapper.exists()).toEqual(true);
+  });
+  it("should contain the Login component", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find("Login")).toHaveLength(1);
   });
 
-  it('check that CourseList is displayed and Login is not displayed when isLoggedIn is true', (done) => {
+  it("CourseList is not displayed with isLoggedIn false by default", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find("CourseList")).toHaveLength(0);
+  });
+
+  it("isLoggedIn is true", () => {
     const wrapper = shallow(<App isLoggedIn={true} />);
-    expectChai(wrapper.find(CourseList)).to.have.lengthOf(1);
-    expectChai(wrapper.find(Login)).to.have.lengthOf(0);
-    done();
-  });
 
-  it('test that verify that the function returns the right object isUserLoggedIn', (done) => {
-    let state = { ui: fromJS({ isUserLoggedIn: true }) } ;
-    const result = mapStateToProps(state);
-    expectChai(_.isEqual(result, { isLoggedIn: true, displayDrawer: undefined })).to.equal(true);
-    done();
+    expect(wrapper.find("Login")).toHaveLength(0);
+    expect(wrapper.find("CourseList")).toHaveLength(1);
   });
+});
 
-  it('test that verify that the function returns the right object displayDrawer', (done) => {
-    let state = { ui: fromJS({ isNotificationDrawerVisible: true }) };
+describe("App Redux", () => {
+  it("mapStateToProps returns the right object from user Login", () => {
+    let state = {
+      ui: fromJS({
+        isUserLoggedIn: true,
+      }),
+    };
+
     const result = mapStateToProps(state);
-    expectChai(_.isEqual(result, { isLoggedIn: undefined, displayDrawer: true })).to.equal(true);
-    done();
+
+    expect(result).toEqual({ isLoggedIn: true });
+  });
+  it("mapStateToProps returns the right object from display Drawer", () => {
+    let state = {
+      ui: fromJS({
+        isNotificationDrawerVisible: true,
+      }),
+    };
+
+    const result = mapStateToProps(state);
+
+    expect(result).toEqual({ displayDrawer: true });
   });
 });
