@@ -1,10 +1,10 @@
-import { uiReducer } from './uiReducer';
+import uiReducer from './uiReducer';
 import { expect as expectChai } from 'chai';
 
 var _ = require('lodash');
 const { Map } = require('immutable');
 
-describe('Test notifications.js', () => {
+describe('Test uiReducer.js', () => {
   const initialState = {
     isNotificationDrawerVisible: false,
     isUserLoggedIn: false,
