@@ -6,10 +6,10 @@ const { Map } = require('immutable');
 export const initialState = {
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
-  user: {},
+  user: null,
 }
 
-export const uiReducer = (state = initialState, action) => {
+const uiReducer = (state = initialState, action) => {
   state = Map(state);
   switch (action.type) {
     case DISPLAY_NOTIFICATION_DRAWER:
@@ -21,10 +21,14 @@ export const uiReducer = (state = initialState, action) => {
     case LOGIN_FAILURE:
       return state.set('isUserLoggedIn', false);
     case LOGOUT:
-      return state.set('isUserLoggedIn', false);
+      return state.set('isUserLoggedIn', false).set("user", null);
+    case LOGIN:
+      return state.set('user', action.user);
     default:
       break;
   }
 
   return state;
 };
+
+export default uiReducer;
