@@ -2,7 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import App from '../App/App';
-import Login from './Login'
+import Login from './Login';
+import { StyleSheetTestUtils } from 'aphrodite';
+StyleSheetTestUtils.suppressStyleInjection();
+
 
 describe('Test Login.js', () => {
   it('Login without crashing', (done) => {
