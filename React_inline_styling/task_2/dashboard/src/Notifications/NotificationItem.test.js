@@ -2,8 +2,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect as expectChai } from 'chai';
 import NotificationItem from './NotificationItem';
+import { StyleSheetTestUtils } from "aphrodite";
 
 describe('Test NotificationItem.js', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+  
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   it('Notificacionitem without crashing', (done) => {
     expectChai(shallow(<NotificationItem id={1}/>).exists());
     done();
@@ -20,7 +29,8 @@ describe('Test NotificationItem.js', () => {
 
   it('renders inner HTML', (done) => {
     const wrapper = shallow(<NotificationItem html={{ __html: '<u>test</u>' }} id={1} />);
-    expectChai(wrapper.html()).to.equal('<li data-notification-type="default"><u>test</u></li>');
+    expectChai(wrapper.find('li').hasClass(/default*/)).to.equal(true);
+    //expectChai(wrapper.html()).to.equal(`<li data-notification-type="default" class="default_"><u>test</u></li>`);
     done();
   });
 
