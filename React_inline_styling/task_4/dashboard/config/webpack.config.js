@@ -1,12 +1,12 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  mode: 'production',
-  devtool: 'inline-source-map',
-  entry: './src/index.js',
+  mode: "development",
+  devtool: "inline-source-map",
+  entry: "./src/index.js",
   output: {
-    filename: 'bundle.js',
-    path: path.resolve('./dist'),
+    filename: "bundle.js",
+    path: path.resolve("./dist"),
   },
   performance: {
     maxAssetSize: 1000000,
@@ -14,7 +14,7 @@ module.exports = {
   },
   devServer: {
     hot: true,
-    contentBase: path.resolve('./dist'),
+    contentBase: path.resolve("./dist"),
     compress: true,
     port: 8564,
   },
@@ -23,18 +23,18 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
-          'file-loader',
+          "file-loader",
           {
-            loader: 'image-webpack-loader',
+            loader: "image-webpack-loader",
             options: {
               bypassOnDebug: true, // webpack@1.x
               disable: true, // webpack@2.x and newer
@@ -43,5 +43,10 @@ module.exports = {
         ],
       },
     ],
+  },
+  resolve: {
+    alias: {
+      assets: path.resolve(__dirname, 'src/assets'),
+    },
   },
 };
